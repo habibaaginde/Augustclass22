@@ -21,4 +21,3 @@ amazon-linux-extras install java-openjdk11
 systemctl enable jenkins
 systemctl start jenkins
 systemctl status jenkins
-sudo reboot
