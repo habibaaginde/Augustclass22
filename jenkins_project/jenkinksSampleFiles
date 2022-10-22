@@ -1,0 +1,58 @@
+pipeline {
+    agent any
+    parameters {
+        choice (choices: ["TEST", "DEV", "QA", "PRE-PROD","PROD"], description: "which environment to deploy in?", name: "deployEnv")
+    }
+    stages {
+        stage ("JUNEClass") {
+            steps {
+                echo " choice is set to: ${params.deployEnv}"
+            }
+        }
+    }
+}
+
+
+
+
+Terraform Build scripts with JENKINS:
+—-------------------------------------------------
+
+
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                       git branch: 'jenkins2', url: 'https://github.com/kehbixgit/Augustclass22/'
+
+          }
+        }
+        
+        stage ("terraform init") {
+            steps {
+                sh ('terraform init') 
+            }
+        }
+         stage ("terraform Validate") {
+            steps {
+                echo "Terraform action is about to validate code"
+                sh ('terraform validate') 
+           }
+        }
+         stage ("terraform fmt") {
+            steps {
+               sh ('terraform fmt')
+           }
+        }
+        stage ("terraform Apply") {
+            steps {
+                echo "Terraform action is about to apply"
+                sh ('terraform apply --auto-approve') 
+           }
+        }
+    }
+}
+
